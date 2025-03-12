@@ -54,6 +54,16 @@ func (m *MyModule) ContainerEcho(
 	return dag.Container().From("alpine:latest").WithExec([]string{"echo", stringArg}), nil
 }
 
+// Returns a container that echoes whatever string argument is provided
+func (m *MyModule) ContainerEcho0(
+	ctx context.Context,
+	bar int,
+	// +optional
+	name string,
+) (string, error) {
+	return dag.Container().From("alpine:latest").WithExec([]string{"echo", name}).Stdout(ctx)
+}
+
 // Returns lines that match a pattern in the files of the provided Directory
 func (m *MyModule) GrepDir(
 	ctx context.Context,

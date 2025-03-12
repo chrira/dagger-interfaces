@@ -16,7 +16,7 @@ package main
 
 import (
 	"context"
-	//"dagger/bar/internal/dagger"
+	"dagger/bar/internal/dagger"
 )
 
 type Bar struct{}
@@ -33,3 +33,35 @@ func (m *Bar) ContainerEcho(
 	}
 	return stringArg, nil
 }
+
+// Returns a container that echoes whatever string argument is provided
+func (m *Bar) ContainerEcho0(
+	ctx context.Context,
+	bar int,
+	// +optional
+	name string,
+) (string) {
+	res, err := dag.MyModule().ContainerEcho0(ctx, bar, dagger.MyModuleContainerEcho0Opts{Name: name})
+	if err != nil {
+		return ""
+	}
+	return res
+}
+
+/*
+// Returns a container that echoes whatever string argument is provided
+func (m *Bar) ContainerEcho2(
+	ctx context.Context,
+	bar int,
+	// +optional
+	name string,
+) (string, error) {
+	// Because `Bar` implements `Fooer`, the conversion function `AsMyModuleFooer` has been generated.
+	stringArg, err := dag.MyModule().ContainerEcho(ctx, dag.Example().AsMyModuleFooer())
+
+	if err != nil {
+		return "", err
+	}
+	return stringArg, nil
+}
+*/
