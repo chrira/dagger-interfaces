@@ -6,6 +6,10 @@
   },
   "dependencies": [
     {
+      "name": "Example",
+      "source": "impl"
+    },
+    {
       "name": "MyModule",
       "source": "fooer"
     }

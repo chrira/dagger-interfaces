@@ -16,22 +16,20 @@ package main
 
 import (
 	"context"
-	"dagger/bar/internal/dagger"
+	//"dagger/bar/internal/dagger"
 )
 
 type Bar struct{}
 
 // Returns a container that echoes whatever string argument is provided
-func (m *Bar) ContainerEcho(stringArg string) *dagger.Container {
-	return dag.Container().From("alpine:latest").WithExec([]string{"echo", stringArg})
-}
+func (m *Bar) ContainerEcho(
+	ctx context.Context,
+) (string, error) {
+	// Because `Bar` implements `Fooer`, the conversion function `AsMyModuleFooer` has been generated.
+	stringArg, err := dag.MyModule().Foo(ctx, dag.Example().AsMyModuleFooer())
 
-// Returns lines that match a pattern in the files of the provided Directory
-func (m *Bar) GrepDir(ctx context.Context, directoryArg *dagger.Directory, pattern string) (string, error) {
-	return dag.Container().
-		From("alpine:latest").
-		WithMountedDirectory("/mnt", directoryArg).
-		WithWorkdir("/mnt").
-		WithExec([]string{"grep", "-R", pattern, "."}).
-		Stdout(ctx)
+	if err != nil {
+		return "", err
+	}
+	return stringArg, nil
 }

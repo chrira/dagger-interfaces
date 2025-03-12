@@ -22,12 +22,23 @@ dagger init --sdk go --name Example --source dagger
 
 ```sh
 dagger install ./fooer/
+dagger install ./impl/
 
 ```
 
 ## Test
 
 ### pre optional
+
+
+run interfaced method:
+
+```sh
+dagger call container-echo
+number is: 42
+```
+
+fooer infos:
 
 ```sh
 dagger -m fooer/ functions
@@ -39,4 +50,3 @@ grep-dir   Returns lines that match a pattern in the files of the provided Direc
 
 Skipped 2 function(s) with unsupported types: foo, container-echo
 ```
-
