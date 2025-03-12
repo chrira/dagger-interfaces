@@ -23,11 +23,19 @@ type MyModule struct{}
 
 type Fooer interface {
 	DaggerObject
-	Foo(ctx context.Context, bar int) (string, error)
+	Foo(
+		ctx context.Context,
+		bar int,
+		// +optional
+		name string,
+	) (string, error)
 }
 
-func (m *MyModule) Foo(ctx context.Context, fooer Fooer) (string, error) {
-	return fooer.Foo(ctx, 42)
+func (m *MyModule) Foo(
+	ctx context.Context,
+	fooer Fooer,
+) (string, error) {
+	return fooer.Foo(ctx, 42, "Puzzle")
 }
 
 
@@ -35,9 +43,11 @@ func (m *MyModule) Foo(ctx context.Context, fooer Fooer) (string, error) {
 func (m *MyModule) ContainerEcho(
 	ctx context.Context,
 	bar int,
+	// +optional
+	name string,
 	fooer Fooer,
 ) (*dagger.Container, error) {
-	stringArg, err := fooer.Foo(ctx, bar)
+	stringArg, err := fooer.Foo(ctx, bar, name)
 	if err != nil {
 		return nil, err
 	}

@@ -24,6 +24,11 @@ type Example struct{}
 
 
 // implement Fooer interface
-func (m *Example) Foo(ctx context.Context, bar int) (string, error) {
-	return fmt.Sprintf("number is: %d", bar), nil
+func (m *Example) Foo(
+	ctx context.Context,
+	bar int,
+	// +optional
+	name string,
+) (string, error) {
+	return fmt.Sprintf("%s is: %d", name, bar), nil
 }
