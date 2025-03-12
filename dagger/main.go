@@ -48,6 +48,23 @@ func (m *Bar) ContainerEcho0(
 	return res
 }
 
+
+// Returns a container that echoes whatever string argument is provided
+func (m *Bar) ContainerEcho1(
+	ctx context.Context,
+	bar int,
+	// +optional
+	name string,
+) (string) {
+	// Because `Bar` implements `Fooer`, the conversion function `AsMyModuleFooer` has been generated.
+	fooer := dag.Example().AsMyModuleFooer()
+	res, err := dag.MyModule().ContainerEcho(ctx, bar, fooer, dagger.MyModuleContainerEchoOpts{Name: name})
+	if err != nil {
+		return ""
+	}
+	return res
+}
+
 /*
 // Returns a container that echoes whatever string argument is provided
 func (m *Bar) ContainerEcho2(

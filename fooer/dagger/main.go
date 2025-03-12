@@ -46,12 +46,12 @@ func (m *MyModule) ContainerEcho(
 	// +optional
 	name string,
 	fooer Fooer,
-) (*dagger.Container, error) {
+) (string, error) {
 	stringArg, err := fooer.Foo(ctx, bar, name)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return dag.Container().From("alpine:latest").WithExec([]string{"echo", stringArg}), nil
+	return dag.Container().From("alpine:latest").WithExec([]string{"echo", stringArg}).Stdout(ctx)
 }
 
 // Returns a container that echoes whatever string argument is provided

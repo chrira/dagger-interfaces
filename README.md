@@ -50,3 +50,14 @@ grep-dir   Returns lines that match a pattern in the files of the provided Direc
 
 Skipped 2 function(s) with unsupported types: foo, container-echo
 ```
+
+
+### pre optional
+
+
+run interfaced method:
+
+```sh
+dagger call container-echo-1 --bar 2 --name Puzzle
+```
+
