@@ -21,13 +21,35 @@ import (
 
 type MyModule struct{}
 
+type Fooer interface {
+	DaggerObject
+	Foo(ctx context.Context, bar int) (string, error)
+}
+
+func (m *MyModule) Foo(ctx context.Context, fooer Fooer) (string, error) {
+	return fooer.Foo(ctx, 42)
+}
+
+
 // Returns a container that echoes whatever string argument is provided
-func (m *MyModule) ContainerEcho(stringArg string) *dagger.Container {
-	return dag.Container().From("alpine:latest").WithExec([]string{"echo", stringArg})
+func (m *MyModule) ContainerEcho(
+	ctx context.Context,
+	bar int,
+	fooer Fooer,
+) (*dagger.Container, error) {
+	stringArg, err := fooer.Foo(ctx, bar)
+	if err != nil {
+		return nil, err
+	}
+	return dag.Container().From("alpine:latest").WithExec([]string{"echo", stringArg}), nil
 }
 
 // Returns lines that match a pattern in the files of the provided Directory
-func (m *MyModule) GrepDir(ctx context.Context, directoryArg *dagger.Directory, pattern string) (string, error) {
+func (m *MyModule) GrepDir(
+	ctx context.Context,
+	directoryArg *dagger.Directory,
+	pattern string,
+) (string, error) {
 	return dag.Container().
 		From("alpine:latest").
 		WithMountedDirectory("/mnt", directoryArg).
