@@ -29,6 +29,8 @@ func (m *Example) Foo(
 	bar int,
 	// +optional
 	name string,
+	// +optional
+	name2 string,
 ) (string, error) {
-	return fmt.Sprintf("%s is: %d", name, bar), nil
+	return fmt.Sprintf("%s - %s is: %d", name, name2, bar), nil
 }

@@ -28,6 +28,9 @@ type Fooer interface {
 		bar int,
 		// +optional
 		name string,
+		// +optional
+		// +default="awesome"
+		name2 string,
 	) (string, error)
 }
 
@@ -35,7 +38,7 @@ func (m *MyModule) Foo(
 	ctx context.Context,
 	fooer Fooer,
 ) (string, error) {
-	return fooer.Foo(ctx, 42, "Puzzle")
+	return fooer.Foo(ctx, 42, "Puzzle", "")
 }
 
 
@@ -47,7 +50,7 @@ func (m *MyModule) ContainerEcho(
 	name string,
 	fooer Fooer,
 ) (string, error) {
-	stringArg, err := fooer.Foo(ctx, bar, name)
+	stringArg, err := fooer.Foo(ctx, bar, name, "")
 	if err != nil {
 		return "", err
 	}
