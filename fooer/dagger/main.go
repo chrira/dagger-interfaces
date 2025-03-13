@@ -38,7 +38,7 @@ func (m *MyModule) Foo(
 	ctx context.Context,
 	fooer Fooer,
 ) (string, error) {
-	return fooer.Foo(ctx, 42, "Puzzle", "")
+	return fooer.Foo(ctx, 1, "MyModule", "")
 }
 
 
@@ -48,9 +48,12 @@ func (m *MyModule) ContainerEcho(
 	bar int,
 	// +optional
 	name string,
+	// +optional
+	// +default="fooer"
+	name2 string,
 	fooer Fooer,
 ) (string, error) {
-	stringArg, err := fooer.Foo(ctx, bar, name, "")
+	stringArg, err := fooer.Foo(ctx, bar, name, name2)
 	if err != nil {
 		return "", err
 	}

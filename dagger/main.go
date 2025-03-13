@@ -55,10 +55,13 @@ func (m *Bar) ContainerEcho1(
 	bar int,
 	// +optional
 	name string,
+	// +optional
+	// +default="default"
+	name2 string,
 ) (string) {
 	// Because `Bar` implements `Fooer`, the conversion function `AsMyModuleFooer` has been generated.
 	fooer := dag.Example().AsMyModuleFooer()
-	res, err := dag.MyModule().ContainerEcho(ctx, bar, fooer, dagger.MyModuleContainerEchoOpts{Name: name})
+	res, err := dag.MyModule().ContainerEcho(ctx, bar, fooer, dagger.MyModuleContainerEchoOpts{Name: name, Name2: name2})
 	if err != nil {
 		return ""
 	}
